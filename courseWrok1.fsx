@@ -5,8 +5,8 @@
   ------------------------------------
   Coursework 1: Tuples, functions, basic pattern matching
   ------------------------------------
-  Name:
-  Student ID:
+  Name: Fortunat Mutunda
+  Student ID: fomutu
   ------------------------------------
   Answer the questions below.  You answers to questions 1--7 should be
   correct F# code written after the question. This file is an F#
@@ -34,52 +34,54 @@ let function1 (someNum:int) aTuple =
     //
 // 4. Make a function that takes a tuple of five integers and returns a tuple of five integers where at the 
 // position of the largest element would be the result of division of the largest element with the smallest one greater than one.
-let finderfun tuple1 =
+let tuple_calculator  tuple_1 =
+    let find_max num (el1,el2,el3,el4,el5)=
+       if   num>el2 && num>el3 && num>el4 && num>el5    then true
+       elif num>el1 && num>el3 && num>el4 && num>el5    then true
+       elif num>el1 && num>el2 && num>el4 && num>el5    then true
+       elif num>el1 && num>el2 && num>el3 && num>el5    then true
+       elif num>el1 && num>el2 && num>el3 && num>el4    then true
+       else  false
 
-    let findMin num (a,b,c,d,e) =
-        if   num < b && num < c && num < d && num < e && num >1 then true
-        elif num < a && num < c && num < d && num < e && num >1 then true
-        elif num < b && num < a && num < d && num < e && num >1 then true
-        elif num < b && num < c && num < a && num < e && num >1 then true
-        elif num < b && num < c && num < d && num < a && num >1 then true
-        else false
+    let find_min num (el1,el2,el3,el4,el5) =
+       if   num<el2 && num<el3 && num<el4 && num<el5 && num>1   then true
+       elif num<el1 && num<el3 && num<el4 && num<el5 && num>1   then true
+       elif num<el1 && num<el2 && num<el4 && num<el5 && num>1   then true
+       elif num<el1 && num<el2 && num<el3 && num<el5 && num>1   then true
+       elif num<el1 && num<el2 && num<el3 && num<el4 && num>1   then true
+       else  false
 
-     let findMax num (a,b,c,d,e)=
-       if   num>a && num>c && num>d && num>e    then true
-       elif num>a && num>c && num>d && num>e    then true
-       elif num>d && num>b && num>d && num>e    then true
-       elif num>a && num>b && num>c && num>e    then true
-       elif num>a && num>b && num>c && num>d    then true
-       else  false 
-     
-     let methodone  tuple=  
+    let operation_computation  tuple=  
           match  tuple with
-          | (a,b,c,d,e) when findMax a tuple && findMin b  tuple ->  (a/b,b,c,d,e)
-          | (a,b,c,d,e) when findMax a tuple && findMin c  tuple ->  (a/c,b,c,d,e)
-          | (a,b,c,d,e) when findMax a tuple && findMin d  tuple ->  (a/d,b,c,d,e)
-          | (a,b,c,d,e) when findMax a tuple && findMin e  tuple ->  (a/e,b,c,d,e)
+          | (el1,el2,el3,el4,el5) when find_max el1 tuple && find_min el2  tuple ->  (el1/el2,el2,el3,el4,el5)
+          | (el1,el2,el3,el4,el5) when find_max el1 tuple && find_min el3  tuple ->  (el1/el3,el2,el3,el4,el5)
+          | (el1,el2,el3,el4,el5) when find_max el1 tuple && find_min el4  tuple ->  (el1/el4,el2,el3,el4,el5)
+          | (el1,el2,el3,el4,el5) when find_max el1 tuple && find_min el5  tuple ->  (el1/el5,el2,el3,el4,el5)
 
-          | (a,b,c,d,e) when findMax b tuple && findMin a  tuple ->  (a,b/a,c,d,e)
-          | (a,b,c,d,e) when findMax b tuple && findMin c  tuple ->  (a,b/c,c,d,e)
-          | (a,b,c,d,e) when findMax b tuple && findMin d  tuple ->  (a,b/d,c,d,e)
-          | (a,b,c,d,e) when findMax b tuple && findMin e  tuple ->  (a,b/e,c,d,e)
+          | (el1,el2,el3,el4,el5) when find_max el2 tuple && find_min el1  tuple ->  (el1,el2/el1,el3,el4,el5)
+          | (el1,el2,el3,el4,el5) when find_max el2 tuple && find_min el3  tuple ->  (el1,el2/el3,el3,el4,el5)
+          | (el1,el2,el3,el4,el5) when find_max el2 tuple && find_min el4  tuple ->  (el1,el2/el4,el3,el4,el5)
+          | (el1,el2,el3,el4,el5) when find_max el2 tuple && find_min el5  tuple ->  (el1,el2/el5,el3,el4,el5)
 
-          | (a,b,c,d,e) when findMax c tuple && findMin a  tuple ->  (a,b,c/a,d,e)
-          | (a,b,c,d,e) when findMax c tuple && findMin b  tuple ->  (a,b,c/b,d,e)
-          | (a,b,c,d,e) when findMax c tuple && findMin d  tuple ->  (a,b,c/d,d,e)
-          | (a,b,c,d,e) when findMax c tuple && findMin e  tuple ->  (a,b,c/e,d,e)
+          | (el1,el2,el3,el4,el5) when find_max el3 tuple && find_min el1  tuple ->  (el1,el2,el3/el1,el4,el5)
+          | (el1,el2,el3,el4,el5) when find_max el3 tuple && find_min el2  tuple ->  (el1,el2,el3/el2,el4,el5)
+          | (el1,el2,el3,el4,el5) when find_max el3 tuple && find_min el4  tuple ->  (el1,el2,el3/el4,el4,el5)
+          | (el1,el2,el3,el4,el5) when find_max el3 tuple && find_min el5  tuple ->  (el1,el2,el3/el5,el4,el5)
 
-          | (a,b,c,d,e) when findMax d tuple && findMin a  tuple ->  (a,b,c,d/a,e)
-          | (a,b,c,d,e) when findMax d tuple && findMin b  tuple ->  (a,b,c,d/b,e)
-          | (a,b,c,d,e) when findMax d tuple && findMin c  tuple ->  (a,b,c,d/c,e)
-          | (a,b,c,d,e) when findMax d tuple && findMin e  tuple ->  (a,b,c,d/e,e)
+          | (el1,el2,el3,el4,el5) when find_max el4 tuple && find_min el1  tuple ->  (el1,el2,el3,el4/el1,el5)
+          | (el1,el2,el3,el4,el5) when find_max el4 tuple && find_min el2  tuple ->  (el1,el2,el3,el4/el2,el5)
+          | (el1,el2,el3,el4,el5) when find_max el4 tuple && find_min el3  tuple ->  (el1,el2,el3,el4/el3,el5)
+          | (el1,el2,el3,el4,el5) when find_max el4 tuple && find_min el5  tuple ->  (el1,el2,el3,el4/el5,el5)
 
-          | (a,b,c,d,e) when findMax e tuple && findMin a  tuple ->  (a,b,c,d,e/a)
-          | (a,b,c,d,e) when findMax e tuple && findMin b  tuple ->  (a,b,c,d,e/b)
-          | (a,b,c,d,e) when findMax e tuple && findMin c  tuple ->  (a,b,c,d,e/c)
-          | (a,b,c,d,e) when findMax e tuple && findMin d  tuple ->  (a,b,c,d,e/d)
+          | (el1,el2,el3,el4,el5) when find_max el5 tuple && find_min el1  tuple ->  (el1,el2,el3,el4,el5/el1)
+          | (el1,el2,el3,el4,el5) when find_max el5 tuple && find_min el2  tuple ->  (el1,el2,el3,el4,el5/el2)
+          | (el1,el2,el3,el4,el5) when find_max el5 tuple && find_min el3  tuple ->  (el1,el2,el3,el4,el5/el3)
+          | (el1,el2,el3,el4,el5) when find_max el5 tuple && find_min el4  tuple ->  (el1,el2,el3,el4,el5/el4)
 
           |_->  tuple
+      
+    operation_computation tuple_1
+
 // 6. Make 3 functions that return the average of the value of elements in
 // tuples containing 2, 3, or 4 elements of float type.
 let of2elts tuple1 =
