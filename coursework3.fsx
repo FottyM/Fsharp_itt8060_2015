@@ -8,8 +8,8 @@
   Coursework 3: User defined types
 
   ------------------------------------
-  Name:
-  TUT Student ID:
+  Name:Fortunat Mutunda
+  TUT Student ID:fomutu
   ------------------------------------
 
 
@@ -29,22 +29,45 @@
 // higher power in multiplication are pushed to the right.
 // Add(X, Const 1.0) -> Add(Const 1.0, X)
 // Mul(X, Const 1.0) -> Mul(Const 1.0, X)
-//Add
-//    (Mul (Const 0.0,Mul (Mul (X,X),X)),
-//     Mul
-//       (Const 2.0,
-//        Add
-//          (Mul (Const 1.0,Mul (X,X)),
-//           Mul (X,Add (Mul (Const 1.0,X),Mul (X,Const 1.0))))))
+//Add(Mul (Const 0.0,Mul (Mul (X,X),X)),Mul(Const 2.0,Add(Mul (Const 1.0,Mul (X,X)),Mul (X,Add (Mul (Const 1.0,X),Mul (X,Const 1.0))))))
 // -> 
-//Add
-//    (Mul (Const 0.0,Mul (X,Mul (X,X))),
-//     Mul
-//       (Const 2.0,
-//        Add
-//          (Mul (Const 1.0,Mul (X,X)),
-//           Mul (X,Add (Mul (Const 1.0,X),Mul (Const 1.0,X))))))
+//Add(Mul (Const 0.0,Mul (X,Mul (X,X))),Mul(Const 2.0,Add(Mul (Const 1.0,Mul (X,X)), (X,Add (Mul (Const 1.0,X),Mul (Const 1.0,X))))))
 
+type Fexpr = | Const of float
+             | X
+             | Add of Fexpr * Fexpr
+             | Sub of Fexpr * Fexpr
+             | Mul of Fexpr * Fexpr
+             | Div of Fexpr * Fexpr
+             | Sin of Fexpr
+             | Cos of Fexpr
+             | Log of Fexpr
+             | Exp of Fexpr
+
+let rec rearrange fxp =
+    match fxp with
+    |Const a -> Const a
+    |X -> X
+    |Sin fxp1 -> Sin(rearrange fxp1)
+    |Cos fxp1 -> Cos(rearrange fxp1)
+    |Log fxp1 -> Log(rearrange fxp1)
+    |Exp fxp1 -> Exp(rearrange fxp1)
+    |Sub (fxp1,fxp2) -> Sub(rearrange fxp1, rearrange fxp2)
+    |Div (fxp1,fxp2) -> Div(rearrange fxp1, rearrange fxp2)
+    |Add(X, Const a ) -> Add (Const a,X)
+    |Add(fxp1,Const a) -> Add(Const a, rearrange fxp1)
+    |Add(X, fxp1) -> Add(X,rearrange fxp1)
+    |Add(fexp1,fexp2) -> Add(rearrange fexp1, rearrange fexp2)
+    |Mul(fexp1,X)-> Mul(X, rearrange fexp1)
+    |Mul(X, Const a) -> Mul(Const a, X)
+    |Mul(fexp1,Const a) -> Mul(Const a, rearrange fexp1)
+    |Mul(fexp1,fexp2) -> Mul(rearrange fexp1, rearrange fexp2)
+
+let a = Add(Mul (Const 0.0,Mul (Mul (X,X),X)),Mul(Const 2.0,Add(Mul (Const 1.0,Mul (X,X)),Mul (X,Add (Mul (Const 1.0,X),Mul (X,Const 1.0))))))
+rearrange a
+
+let a2 = Mul (Mul (X,X),X)
+rearrange a2
 
 
 
