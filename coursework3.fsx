@@ -92,6 +92,8 @@ rearrange a2
 //           Mul (X,Add (X,X)))
 
 
+
+
 // 3-4: Given the type definition:
  type BList =
   | BEmpty
