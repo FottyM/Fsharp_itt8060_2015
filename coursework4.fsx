@@ -97,24 +97,26 @@ defeatist list2
 //    by the first parameter of the function. Pay close attention to the type.
 //    E.g. optimist 0 [Some 1; None] -> [1; 0]
 
-let rec defeatist (opt:list<option<'a>>) : list<int> = 
-    let rec loop opt acc =
-        match opt with
-        |[None] -> 0
-        |hd::tl -> 
-            match hd with
-            |None -> 0
-            |Some a -> loop tl (a::acc)
-        |[] -> acc
-    loop opt []
+let rec mapu2 list value =
+ match list with 
+ |None :: tail  -> value :: mapu2 tail value
+ |Some list :: tail  -> list :: mapu2 tail value
+ |_ -> []
 
-let list = [Some "mm"; Some "ll"; Some "ff"]
-let list2 = [Some[Some 2];Some[Some 3]; Some[Some 5];Some[None]]
+let rec explode list uni =
+    match list with
+    |hd::tl ->
+        match hd with
+        |None   -> uni :: explode tl uni
+        |Some list -> list :: explode tl uni
+    |_ -> []
 
-defeatist list
-defeatist list2
+let rec optimist a (list:option<'a> List) = 
+  match explode list a with 
+  | []-> [] 
+  |  head::tt-> head:: tt
 
-
+optimist 0 [Some 1; None]
 
 
 // 5. Write a function
@@ -123,11 +125,10 @@ defeatist list2
 //    following behaviour:
 //    ["hello";"world"] -> ['h';'e';'l';'l';'o';'w';'o';'r';'l';'d']
 
-let chars (ch:list<string>) : list<char> = 
-    ch |> List.collect(fun x -> 
-      [for i in ch -> (i |> Seq.take(ch.Length))])
+let chars (ch:list<string>) : list<char> = ch |> List.collect(fun i ->  (i |> List.ofSeq))
 
-
+let listo = ["F#";"IS";"NOT";"A";"PROGRAMING";"WE";"NEED";"BUT";"THE";"ONE";"WE";"DESERVE"]
+chars listo
 
 
 // 6. Write a function
