@@ -113,10 +113,10 @@ let rec explode list uni =
 
 let rec optimist a (list:option<'a> List) = 
   match explode list a with 
-  | []-> [] 
-  |  head::tt-> head:: tt
+  |[]-> [] 
+  |hd::tl-> hd::tl
 
-optimist 0 [Some 1; None]
+optimist 6 [Some 1; None]
 
 
 // 5. Write a function
@@ -141,11 +141,3 @@ chars listo
 let iprint (list: int list)  = List.foldBack (fun  elem acc ->  elem.ToString()+ "," + acc) list ("")
 let to_s_list = [1..7]
 iprint to_s_list 
-
-
-
-
-
-
- 
-
