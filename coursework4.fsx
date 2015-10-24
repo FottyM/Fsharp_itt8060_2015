@@ -97,7 +97,22 @@ defeatist list2
 //    by the first parameter of the function. Pay close attention to the type.
 //    E.g. optimist 0 [Some 1; None] -> [1; 0]
 
+let rec defeatist (opt:list<option<'a>>) : list<int> = 
+    let rec loop opt acc =
+        match opt with
+        |[None] -> 0
+        |hd::tl -> 
+            match hd with
+            |None -> 0
+            |Some a -> loop tl (a::acc)
+        |[] -> acc
+    loop opt []
 
+let list = [Some "mm"; Some "ll"; Some "ff"]
+let list2 = [Some[Some 2];Some[Some 3]; Some[Some 5];Some[None]]
+
+defeatist list
+defeatist list2
 
 
 
@@ -108,7 +123,9 @@ defeatist list2
 //    following behaviour:
 //    ["hello";"world"] -> ['h';'e';'l';'l';'o';'w';'o';'r';'l';'d']
 
-let chars (ch:list<string>) : list<char>
+let chars (ch:list<string>) : list<char> = 
+    ch |> List.collect(fun x -> 
+      [for i in ch -> (i |> Seq.take(ch.Length))])
 
 
 
