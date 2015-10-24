@@ -96,13 +96,6 @@ defeatist list2
 //    list containing only the successes with all failures replaced
 //    by the first parameter of the function. Pay close attention to the type.
 //    E.g. optimist 0 [Some 1; None] -> [1; 0]
-
-let rec mapu2 list value =
- match list with 
- |None :: tail  -> value :: mapu2 tail value
- |Some list :: tail  -> list :: mapu2 tail value
- |_ -> []
-
 let rec explode list uni =
     match list with
     |hd::tl ->
