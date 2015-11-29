@@ -8,8 +8,8 @@
   Coursework 7: Generating data for testing
 
   ------------------------------------------------
-  Name:
-  Student ID:
+  Name:Fortunat Mutunda
+  Student ID:fomutu
   ------------------------------------------------
 
 
@@ -42,6 +42,7 @@ implementation from coursework 6.
 #r @"..\BrokenRomanNumbers.dll"
 open FsCheck
 open BrokenRomanNumbers
+open System
 
 //CorrectRomanNumbers
 let decimal_of_roman roman =
@@ -76,16 +77,11 @@ let converter (roman:string) =
      broken implementation.
 *)
 
-let createStringFromChars (cs : char list) = 
-    gen {
-       let! chars = Gen.arrayOf (Gen.elements cs)
-       return System.String.Concat(chars)
-    }
 
 let chooseFromList xs =
    gen {
        let! idx = Gen.choose(0, List.length xs - 1)
-       return (List.nth xs idx)
+       return (List.item(idx) xs)
    }
 
 let testBroken1 =
@@ -97,6 +93,8 @@ Check.Quick testBroken1
 let testCorrect1 =
     Prop.forAll (Arb.fromGen (chooseFromList ["IIII"; "VV"; "XXXX"; "LL"; "CCCC"; "DD"; "MMMMMM"; "I"; "V"; "X"; "L"; "C"; "D"; "M"] ))
                  (fun p -> try (box (converter(p)) :? int) with | _ -> true)
+
+Check.Quick testCorrect1
 
 let testBroken2 =
     Prop.forAll (Arb.fromGen (chooseFromList ["IX"; "LIX"; "XCI"; "CDXCI"; "CMI";] ))
@@ -120,7 +118,7 @@ let testCorrect3 =
                  (fun p -> try (box (converter(p)) :? int) with | _ -> true)
 Check.Quick testCorrect3
  
-Check.Verbose testCorrect3
+
 
 
 
@@ -173,9 +171,8 @@ let rec testClientTree client tree =
                      testClientTree client case
 
 
-// this could be one way of doing this
-let clientGenerator = Arb.generate<Client>
-//Gen.sample 1 2 clientGenerator
+
+
 //Check.QuickAll clientGenerator
 let rnd = Random();
 let getRandArrElement' (arr :list<'a>) =
@@ -205,4 +202,5 @@ let person =
 let checkClient = Prop.forAll(  Arb.fromGen ( person ))  (fun x ->testClientTree x tree )
 
 Check.Quick checkClient
+
 
