@@ -173,3 +173,36 @@ let rec testClientTree client tree =
                      testClientTree client case
 
 
+// this could be one way of doing this
+let clientGenerator = Arb.generate<Client>
+//Gen.sample 1 2 clientGenerator
+//Check.QuickAll clientGenerator
+let rnd = Random();
+let getRandArrElement' (arr :list<'a>) =
+  arr |> Seq.item (rnd.Next arr.Length)
+
+let chooseFromList' xs =
+    gen {
+        return getRandArrElement' xs
+    }
+
+
+let person =
+   gen {
+      let! name = (Gen.oneof [ gen {return "Mutunda"};gen {return "Fortunat"};gen {return "Le Duc"}])
+      let! income = (chooseFromList' [100..40000])
+      let! yearsOfexperiance = chooseFromList' [0..30]
+      let! creditCardStatus = (Gen.oneof [ gen { return true }; gen { return false } ])
+      let! criminialRecord = (Gen.oneof [ gen { return true }; gen { return false } ])
+      return { 
+         Name = name; 
+         Income = income;
+         YearsInJob = yearsOfexperiance;
+         UsesCreditCard = creditCardStatus;
+         CriminalRecord = criminialRecord }
+   }
+
+let checkClient = Prop.forAll(  Arb.fromGen ( person ))  (fun x ->testClientTree x tree )
+
+Check.Quick checkClient
+
