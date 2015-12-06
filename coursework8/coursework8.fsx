@@ -50,22 +50,25 @@ sublist oddNumbers  5 10
 // 3. Use the functions in the Seq library to declare a function cartesian sqx sqy that gives
 // a sequence containing all pairs (x,y) where x is a member of sqx and y is a member of sqy.
 //let cartesian sqx sqy =
-  //  match (sqx,sqy) with
-let seq1 = seq{1..3}
-let seq2 = seq{4..6}
+//  match (sqx,sqy) with
 
+let seq1 = seq{1..3}
+let seq2 = seq{4..6}  
+let cartesianr sqx sqy = 
+    sqx |> Seq.collect (fun x -> sqy |> Seq.map (fun y -> x, y))
+
+
+
+
+
+// 4. Make an alternative solution to 3 using sequence expressions.
 let cartesian sqx sqy =
     seq{for x in sqx do 
             for y in sqy do 
                 yield (x,y)}
 
-cartesian seq1 seq2
-// 4. Make an alternative solution to 3 using sequence expressions.
 
-
-let cartesianr sqx sqy = 
-    sqx |> Seq.collect (fun x -> sqy |> Seq.map (fun y -> x, y))
- 
+cartesian seq1 seq2 
 cartesianr seq1 seq2
 // 5. Extend the logging workflow explained in the lecture to support downloading web pages.
 // Log the http response code for each URL. Make a function that takes a sequence of URLs and 
