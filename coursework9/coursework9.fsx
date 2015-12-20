@@ -41,7 +41,10 @@ open System.Net
 open System.Threading 
 open System.Windows.Forms 
 open System.Drawing 
-
+type System.Random with
+    /// Generates an infinite sequence of random numbers within the given range.
+    member this.GetValues(minValue, maxValue) =
+        Seq.initInfinite (fun _ -> this.Next(minValue, maxValue))
 // Async event queue
 type AsyncEventQueue<'T>() = 
     let mutable cont = None 
@@ -140,7 +143,7 @@ let xOrO (g: Game) = let i = Array.fold (fun i c ->
 // fullRow: Game -> bool
 // checks if there is a row containing all same tokens                         
 // Should be implemented
-let fullRow (g: Game) : bool = // NB! implementation missing
+let fullRow (g: Game) : bool = 
     match g with
     |[|Some a;Some b; Some c;_;_;_;_;_;_|] when a = b && b = c -> true
     |[|_;_;_;Some a;Some b; Some c;_;_;_|] when a = b && b = c -> true
@@ -155,8 +158,58 @@ let fullRow (g: Game) : bool = // NB! implementation missing
 
 // myMove: Game -> Move
 // Should be implemented
-let myMove (g: Game) : Move =  // NB! implementation missing
+let myMove (g: Game) : Move = 
+   let r = System.Random()
+   let generated = r.Next 8
+   Array.set g generated (Some O)
+   (O,generated)
+
+  (* if g.[0].IsNone = true && g.[1].IsNone = true && g.[2].IsNone = true then
+        Array.set g (r.Next 3) (Some O)
+        (O,(r.Next 3))
+    elif g.[3].IsNone = true && g.[4].IsNone = true && g.[5].IsNone = true then
+        Array.set g 3 (Some O)
+        (O,3)
+    elif g.[6].IsNone = true && g.[7].IsNone = true && g.[8].IsNone = true then
+        Array.set g 6 (Some O)
+        (O,6)
+    elif g.[0].IsNone = true && g.[3].IsNone = true && g.[6].IsNone = true then
+        Array.set g 3 (Some O)
+        (O,3)
+    elif g.[1].IsNone = true && g.[4].IsNone = true && g.[7].IsNone = true then
+        Array.set g 1 (Some O)
+        (O,1)
+    elif g.[2].IsNone = true && g.[5].IsNone = true && g.[8].IsNone = true then
+        Array.set g 2 (Some O)
+        (O,2)
+    elif g.[0].IsNone = true && g.[4].IsNone = true && g.[8].IsNone = true then
+        Array.set g 0 (Some O)
+        (O,0)
+    elif g.[2].IsNone = true && g.[4].IsNone = true && g.[6].IsNone = true then
+        Array.set g 2 (Some O)
+        (O,2)
+    else 
+        Array.set g (r.Next 3) (Some O)
+        (O,(r.Next 3))
+    
+    
+    
+    *)
+    
+    
+    
+    
+  (* let r = System.Random()
+   let generated = r.Next 8
    if g.[4].IsNone = true then
+        Array.set g 4 (Some O) 
+        (O,4)
+    elif g.[generated].IsNone = true then
+        Array.set g generated (Some O) 
+        (O,generated)
+    else (O,generated)
+
+  (* if g.[4].IsNone = true then
         Array.set g 4 (Some O) 
         (O,4)
     elif g.[6].IsNone = true then
@@ -171,7 +224,8 @@ let myMove (g: Game) : Move =  // NB! implementation missing
     elif g.[2].IsNone = true then
         Array.set g 2 (Some O)
         (O,2)
-    else (O,0)
+    else Array.set g generated (Some O)
+       (O,generated) *) *)
 
       
       
@@ -273,7 +327,6 @@ and myTurn g =
 and userTurn g = 
    async{infoBox.Text <- "state where you would like to place your token"
          inputBox.Text <- ""
-         //statusBox.Text <- "" 
          disable [newGameButton; cancelButton]
 
          let! msg = ev.Receive()
@@ -281,13 +334,15 @@ and userTurn g =
          | UserMove str -> match moveOfString g str with 
                            | Some mv -> let g' = performMove g mv 
                                         printMove g' mv You
+                                        statusBox.Text <- ""
                                         if fullRow g' then
                                             statusBox.Text <- "You won"
                                             return! init()
-                                        else return! myTurn g'
+                                       
+                                        return! myTurn g'
                            | None    -> statusBox.Text <- "illegal input"
                                         return! userTurn g 
-                                                                                           
+         |Quit         -> return! init()                                                                                   
          | _           -> failwith "unexpected message"}
 
 
@@ -311,5 +366,4 @@ quitButton.Click.Add (fun _ -> ev.Post Quit)
 // Start
 Async.StartImmediate (init())
 window.Show() //In Linux/MacOS X use Application.Run(window)
-
 
