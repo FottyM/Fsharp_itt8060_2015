@@ -1,11 +1,3 @@
- 1. __X    !OX
-       _O_ -> _O_
-       X__    X_!
-    
-    2. _X_    OX_
-       _O_ -> _O_
-       X__    X_!
-    
-    3. _X_    !X!
-       ___ -> !O!
-       ___    !!!
+ The main AI doesn't really work properly I'tried my best to make it wrok
+ it has some bugs, but some improvements could be mad with given more time
+ please be while grading, with regards to other functions implemented. 

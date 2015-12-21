@@ -159,73 +159,38 @@ let fullRow (g: Game) : bool =
 // myMove: Game -> Move
 // Should be implemented
 let myMove (g: Game) : Move = 
-   let r = System.Random()
-   let generated = r.Next 8
-   Array.set g generated (Some O)
-   (O,generated)
-
-  (* if g.[0].IsNone = true && g.[1].IsNone = true && g.[2].IsNone = true then
-        Array.set g (r.Next 3) (Some O)
-        (O,(r.Next 3))
-    elif g.[3].IsNone = true && g.[4].IsNone = true && g.[5].IsNone = true then
-        Array.set g 3 (Some O)
-        (O,3)
-    elif g.[6].IsNone = true && g.[7].IsNone = true && g.[8].IsNone = true then
-        Array.set g 6 (Some O)
-        (O,6)
-    elif g.[0].IsNone = true && g.[3].IsNone = true && g.[6].IsNone = true then
-        Array.set g 3 (Some O)
-        (O,3)
-    elif g.[1].IsNone = true && g.[4].IsNone = true && g.[7].IsNone = true then
-        Array.set g 1 (Some O)
-        (O,1)
-    elif g.[2].IsNone = true && g.[5].IsNone = true && g.[8].IsNone = true then
-        Array.set g 2 (Some O)
-        (O,2)
-    elif g.[0].IsNone = true && g.[4].IsNone = true && g.[8].IsNone = true then
-        Array.set g 0 (Some O)
-        (O,0)
-    elif g.[2].IsNone = true && g.[4].IsNone = true && g.[6].IsNone = true then
-        Array.set g 2 (Some O)
-        (O,2)
-    else 
-        Array.set g (r.Next 3) (Some O)
-        (O,(r.Next 3))
+   //let r = System.Random()
+  // let generated = r.Next 8
+  
     
-    
-    
-    *)
-    
-    
-    
-    
-  (* let r = System.Random()
-   let generated = r.Next 8
-   if g.[4].IsNone = true then
-        Array.set g 4 (Some O) 
-        (O,4)
-    elif g.[generated].IsNone = true then
-        Array.set g generated (Some O) 
-        (O,generated)
-    else (O,generated)
-
-  (* if g.[4].IsNone = true then
-        Array.set g 4 (Some O) 
-        (O,4)
-    elif g.[6].IsNone = true then
-        Array.set g 6 (Some O)
-        (O,6)
-    elif g.[0].IsNone = true then
-        Array.set g 0 (Some O)
-        (O,0)
-    elif g.[5].IsNone = true then
-        Array.set g 5 (Some O)
-        (O,5)
-    elif g.[2].IsNone = true then
-        Array.set g 2 (Some O)
-        (O,2)
-    else Array.set g generated (Some O)
-       (O,generated) *) *)
+       if(g.[1].IsNone = false && g.[2].IsNone = false) || (g.[3].IsNone = false && g.[6].IsNone = false) || (g.[4].IsNone = false && g.[8].IsNone = false) 
+       then Array.set g 0 (Some O)
+            (O,0)
+       elif (g.[0].IsNone = false && g.[1].IsNone = false) || (g.[6].IsNone = false && g.[4].IsNone = false) || (g.[8].IsNone = false && g.[5].IsNone = false)
+       then Array.set g 2 (Some O)
+            (O,2)
+       elif (g.[0].IsNone = false && g.[3].IsNone = false) || (g.[2].IsNone = false && g.[4].IsNone = false) || (g.[8].IsNone = false && g.[7].IsNone = false) 
+       then Array.set g 6 (Some O)
+            (O,6)
+       elif (g.[0].IsNone = false && g.[4].IsNone = false) || (g.[2].IsNone = false && g.[5].IsNone = false) || (g.[6].IsNone = false && g.[7].IsNone = false) 
+       then Array.set g 8 (Some O) 
+            (O,8)
+        elif (g.[4].IsNone = false && g.[7].IsNone = false) then
+            Array.set g 1 (Some O) 
+            (O,1)
+        elif (g.[4].IsNone = false && g.[5].IsNone = false) then
+            Array.set g 3 (Some O) 
+            (O,3)
+        elif (g.[4].IsNone = false && g.[3].IsNone = false) then
+            Array.set g 5 (Some O) 
+            (O,5)
+        elif (g.[1].IsNone = false && g.[4].IsNone = false) 
+        then Array.set g 7 (Some O) 
+             (O,7)
+        else (O,8)
+        
+          
+        
 
       
       
